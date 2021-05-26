@@ -21,7 +21,33 @@ public class CSD201_Workshop2
      */
     public static void main(String[] args)
     {
-        
+     do {
+            System.out.println("================= Flower Manager program =================");
+            System.out.print("|1. Add and update flower's price                        |\n"
+                    + "|2. Find flower by name                                  |\n"
+                    + "|3. Find flower by price (input min/max price)           |\n"
+                    + "|4. Delete a flower                                      |\n"
+                    + "|5. Exit                                                 |\n"
+                    + "Your choice: ");
+            choice = sc.nextInt();
+            switch (choice) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    n = false;
+                    break;
+                default:
+                    System.out.println("Please try again!");
+                    break;
+            }
+
+        } while (n);   
     }
 
 }
