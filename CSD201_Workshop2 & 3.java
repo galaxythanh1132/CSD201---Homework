@@ -36,7 +36,7 @@ public class CSD201_Workshop2
             arr[i] = rand.nextInt(100);
             System.out.print(" "+arr[i]);
         }
-        //Insert array into tree
+        Insert array into tree
         for (int i : arr)
         {
             tree.insert(i);
