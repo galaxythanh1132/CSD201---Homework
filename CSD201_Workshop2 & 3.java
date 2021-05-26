@@ -21,49 +21,7 @@ public class CSD201_Workshop2
      */
     public static void main(String[] args)
     {
-        //Variables
-        Scanner scanner = new Scanner(System.in);
-        Random rand = new Random();
-        BinarySearchTree tree = new BinarySearchTree();
-        ArrayList<Node> t2 = new ArrayList<>();
-        int n = 10;
-        int search_value;
-        int[] arr = new int[n];
-        //Random-ing element for array
-        System.out.print("Array created with random elements: ");
-        for (int i = 0; i < n; i++)
-        {
-            arr[i] = rand.nextInt(100);
-            System.out.print(" "+arr[i]);
-        }
-        Insert array into tree
-        for (int i : arr)
-        {
-            tree.insert(i);
-        }
         
-        System.out.print("\nPrefix traversal of tree: ");
-        tree.prefixTravesal();
-        System.out.print("\nInfix traversal of tree: ");
-        tree.infixTravesal();
-        System.out.print("\nPostfix traversal of tree: ");
-        tree.postfixTravesal();
-        System.out.print("\nHeight of tree is: " + tree.findHeight());
-//        System.out.print("\nArray with infix traversal order");
-//        for(Node a: t2)
-//        {
-//            System.out.print(" "+a.getKey());
-//        }
-//        
-//        BinarySearchTree tree2 = new BinarySearchTree();
-//        tree2.dungCay(t2);
-//        System.out.print("\nHeight of tree is: " + tree2.findHeight());
-        System.out.println("\nEnter the value you want to delete from tree: ");
-        search_value = scanner.nextInt();
-        tree.delete(search_value);
-        System.out.print("\nInfix traversal of tree: ");
-        tree.infixTravesal();
-        System.out.println("");
     }
 
 }
@@ -77,111 +35,52 @@ public class BinarySearchTree {
     public BinarySearchTree() {
         root = null;
     }
-
-    public void insert(int key) {
+//--------------Triet--------------------------//
+    //Method for inserting flower
+    public void insert(Flower key) {
         root = insertNode(root, key);
     }
 
     //Method for inserting node
-    Node insertNode(Node root, int key) {
+    Node insertNode(Node root, Flower key) {
         //If this node is the previous node's null then add node 
         if (root == null) {
             root = new Node(key);
             return root;
         }
-        if (key < root.getKey()) { //Traversing to the left
+        if (key.getID() < root.getKey().getID()) { //Traversing to the left
             root.setLeftChild(insertNode(root.getLeftChild(), key));
-        } else if (key > root.getKey()) { //Traversing to the right
+        } else if (key.getID() > root.getKey().getID()) { //Traversing to the right
             root.setRightChild(insertNode(root.getRightChild(), key));
         }
         return root;
     }
-
-    boolean isLeaf(Node node)
-    {
-        if(node.getLeftChild()==null && node.getRightChild()==null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    
-    Node rightMostChild(Node node)
-    {
-        while(node.getRightChild() != null)
-        {
-            node = node.getRightChild();
-        }
-        return node;
-    }
-    
-    Node leftMostChild(Node node)
-    {
-        while(node.getLeftChild() != null)
-        {
-            node = node.getLeftChild();
-        }
-        return node;
-    }
-    
-    void deleteLeaf(Node leaf)
-    {
-        Node node = root;
-        Node parent = null;
-        int key = leaf.getKey();
-        while(node.getKey() != key)
-        {
-            parent = node;
-            if(node.getKey() > key)
-            {
-                node = node.getLeftChild();
-            } else
-            {
-                node = node.getRightChild();
-            }
-        }
-        if (parent.getLeftChild() != null)
-        {
-            if (parent.getLeftChild().getKey() == key)
-            {
-                parent.setLeftChild(null);
-            }
-        }
-        if (parent.getRightChild() != null)
-        {
-            if (parent.getRightChild().getKey() == key)
-            {
-                parent.setRightChild(null);
-            }
-        }
-    }
-    //Search
-    Node search(int key)  { 
-        return search_Recursive(root, key);
-    }
-    
-    Node search_Recursive(Node node, int key)  { 
-        // Base Cases: root is null or key is present at root 
-        if (node==null || node.getKey()==key) 
-            return node; 
-        // val is greater than root's key 
-        if (node.getKey() > key) 
-            return search_Recursive(node.getLeftChild(), key); 
-        // val is less than root's key 
-        return search_Recursive(node.getRightChild(), key); 
-    } 
-    void delete(int key){
-        Node n = search(key);
-        if(n != null)
-        {
-            deleteRecursion(n);
-        }
-        
+//------------Completed----------------------//
+   
+//--------------Triet------------------------//
+    //Method for searching flower by name
+   void searchFlower() {
+        Scanner scanner = new Scanner(System.in);
+        String name;
+        System.out.print("\nPlease enter the name of your wanted flower: ");
+        name = scanner.nextLine();
+        System.out.println("ID---Name of flower-----Price-----Amount");
+        search_Recursive(root, name);
     }
 
+    void search_Recursive(Node node, String name) {
+        if (node == null) {
+            return;
+        }
+        if (node.getKey().getName().contains(name))
+        {
+            System.out.println(node.getKey().toString());
+        }
+        search_Recursive(node.getLeftChild(), name); //Then left
+        search_Recursive(node.getRightChild(), name);
+    }
+//----------------Completed-----------------//
+    
     //Method for deletting
     void deleteRecursion(Node node) {
         if(isLeaf(node))
@@ -292,28 +191,28 @@ public class BinarySearchTree {
 public class Node
 {
 
-    private int key;
+    private Flower key;
     private Node leftChild;
     private Node rightChild;
 
-    public Node(int key)
+    public Node(Flower key)
     {
         this.key = key;
     }
 
-    public Node(int key, Node leftChild, Node rightChild)
+    public Node(Flower key, Node leftChild, Node rightChild)
     {
         this.key = key;
         this.leftChild = leftChild;
         this.rightChild = rightChild;
     }
 
-    public int getKey()
+    public Flower getKey()
     {
         return key;
     }
 
-    public void setKey(int key)
+    public void setKey(Flower key)
     {
         this.key = key;
     }
